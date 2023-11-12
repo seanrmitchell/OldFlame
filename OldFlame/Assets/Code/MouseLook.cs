@@ -22,7 +22,7 @@ public class MouseLook : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         // Gets raw mouse input per pixel
         mouseXAxis = Input.GetAxisRaw("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -37,7 +37,8 @@ public class MouseLook : MonoBehaviour
         // Moving left decreases (left), and moving right increases (right)
         yRot += mouseXAxis;
 
-        // Applies to player
-        playerBody.localRotation = Quaternion.Euler(xRot, yRot, 0f);
+        // Applies to player and camera
+        transform.localRotation = Quaternion.Euler(xRot, 0f, 0f);
+        playerBody.Rotate(Vector3.up * mouseXAxis);
     }
 }
