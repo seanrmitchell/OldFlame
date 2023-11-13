@@ -44,15 +44,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Crouch"",
-                    ""type"": ""Button"",
-                    ""id"": ""9aa842bb-0b95-4181-be25-888b6229bdbf"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -64,17 +55,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b40b9088-d16b-4e3b-87f3-879e10c4cb04"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -190,7 +170,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Strafe = m_Movement.FindAction("Strafe", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
-        m_Movement_Crouch = m_Movement.FindAction("Crouch", throwIfNotFound: true);
         // Interaction
         m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
         m_Interaction_Interact = m_Interaction.FindAction("Interact", throwIfNotFound: true);
@@ -256,14 +235,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private IMovementActions m_MovementActionsCallbackInterface;
     private readonly InputAction m_Movement_Strafe;
     private readonly InputAction m_Movement_Jump;
-    private readonly InputAction m_Movement_Crouch;
     public struct MovementActions
     {
         private @Controls m_Wrapper;
         public MovementActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Strafe => m_Wrapper.m_Movement_Strafe;
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
-        public InputAction @Crouch => m_Wrapper.m_Movement_Crouch;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -279,9 +256,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
-                @Crouch.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
-                @Crouch.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
-                @Crouch.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -292,9 +266,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Crouch.started += instance.OnCrouch;
-                @Crouch.performed += instance.OnCrouch;
-                @Crouch.canceled += instance.OnCrouch;
             }
         }
     }
@@ -344,7 +315,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     {
         void OnStrafe(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnCrouch(InputAction.CallbackContext context);
     }
     public interface IInteractionActions
     {
